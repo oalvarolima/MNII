@@ -1,6 +1,6 @@
 #include "derivatives.hpp"
 
-double secondDeriv_ctr_E4(Fn &f, double x, double interval)
+double secondDeriv_ctr_E4(const Fn &f, double x, double interval)
 {
     double fx_m_2i = f.eval(x - 2*interval);
     double fx_m_i = f.eval(x - interval);

@@ -1,18 +1,15 @@
 #pragma once
 
 #include "tinyexpr.h"
-#include <iostream>
-
-#define LOG(x) std::cout << x << std::endl
+#include <string>
 
 class Fn
 {
 public:
     Fn(const std::string &expr);
 
-    double eval(double x);
-
+    double eval(double x) const;
 private:
     te_expr* compiledExpr;
-    double x;
+    double* x;
 };

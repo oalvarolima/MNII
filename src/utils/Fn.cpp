@@ -2,7 +2,8 @@
 
 Fn::Fn(const std::string &expr)
 {
-    te_variable variables[] = {"x", &x};
+    x = new double;
+    te_variable variables[] = {"x", x};
 
     const char *charsExpr = expr.c_str();
     int errorCode;
@@ -15,8 +16,8 @@ Fn::Fn(const std::string &expr)
     }
 }
 
-double Fn::eval(double x)
+double Fn::eval(double x) const
 {
-    this->x = x;
+    *this->x = x;
     return te_eval(compiledExpr);
 }
