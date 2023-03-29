@@ -1,13 +1,10 @@
 #include "src/NumMethods.hpp"
-
-#include <iostream>
-
-#define LOG(x) std::cout << x << std::endl;
+#include "src/integration/Icalculator.hpp"
 
 int main()
 {
-    std::string t1("sqrt(e^(3*x) + 4*(x^2))");
-    Fn f(t1);
+    Fn f("sqrt(e^(3*x) + 4*(x^2))");
     LOG(secondDeriv_ctr_E4(f, 2, .0001));
 
+    runIcalculator();
 }
