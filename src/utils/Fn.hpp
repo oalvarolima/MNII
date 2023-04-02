@@ -2,6 +2,9 @@
 
 #include "tinyexpr.h"
 #include <string>
+#include <iostream>
+
+#define LOG(x) std::cout << x << std::endl;
 
 class Fn
 {
