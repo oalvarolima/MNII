@@ -15,9 +15,19 @@ struct itrInfo
     double EPS;
 };
 
-std::vector<itrInfo> integrate(const Fn &f, double upper, double lower, double EPS, double (*integrator)(const Fn &, double, double, uint32_t), uint32_t max_itr, uint32_t offSet);
-double trapezoidalRule(const Fn &f,  double upper, double lower, uint32_t intervalsNum);
-double simpson13(const Fn &f,  double upper, double lower, uint32_t intervalsNum);
-double simpson38(const Fn &f, double upper, double lower, uint32_t intervalsNum);
+// Fórmulas fechadas
+double trapezoidal(const Fn& f, double upper, double lower);
+double simpson13(const Fn& f, double upper, double lower);
+double simpson38(const Fn& f, double upper, double lower);
+double boole(const Fn& f, double upper, double lower);
+
+// Fórmulas abertas
+double opened2Points(const Fn& f, double upper, double lower);
+double milne(const Fn& f, double upper, double lower);
+double opened4points(const Fn &f, double upper, double lower);
+double opened5points(const Fn &f, double upper, double lower);
+
+std::vector<itrInfo> integrate(const Fn& f, double upper, double lower, double EPS,
+                               double(intervalIntegrator)(const Fn& f, double, double));
 
 void printResults(const std::vector<itrInfo> &results, const std::string &methodName);
