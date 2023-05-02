@@ -13,18 +13,18 @@ void closedFormulas();
 
 void runIntegralCalc()
 {
-    std::string userAnswer;
     LOG("\n\n=-=-=-=-=-=-=-=-=-= CALCULADOR NUMÉRICO DE INTEGRAIS =-=-=-=-=-=-=-=-=-=\n");
+    std::string userAnswer = "qualquer coisa";
     while( userAnswer != "0" )
     {
-        LOG("\nPara sair entre [0]");
+        LOG("\nPara sair entre                             [0]");
         LOG("Para calcular o valor de uma integral entre [1]");
         getline(std::cin, userAnswer);
         if( userAnswer == "1" )
         {
-            LOG("\nPara sair entre [0]");
-            LOG("Para calcular usando formulas fechadas entre [1]");
-            LOG("Para calcular usando formulas abertas entre [2]");
+            LOG("\nPara sair entre                               [0]");
+            LOG("Para calcular usando formulas fechadas entre  [1]");
+            LOG("Para calcular usando formulas abertas entre   [2]");
             getline(std::cin, userAnswer);
 
             if( userAnswer == "0" )
@@ -40,11 +40,11 @@ void runIntegralCalc()
 
 void closedFormulas()
 {
-    LOG("\nPara voltar entre [0]");
+    LOG("\nPara voltar entre                   [0]");
     LOG("Para usar a Regra do trapézio entre [1]");
-    LOG("Para usar 1/3 de Simpson entre [2]");
-    LOG("Para usar 3/8 de Simpson entre [3]");
-    LOG("Para usar Regra de Boole entre [4]");
+    LOG("Para usar 1/3 de Simpson entre      [2]");
+    LOG("Para usar 3/8 de Simpson entre      [3]");
+    LOG("Para usar Regra de Boole entre      [4]");
 
 
     std::string userAnswer;
@@ -73,7 +73,7 @@ void closedFormulas()
 
 void openedFormulas()
 {
-    LOG("\nPara voltar entre [0]");
+    LOG("\nPara voltar entre                [0]");
     LOG("Para usar Aberto de grau 1 entre [1]");
     LOG("Para usar Aberto de grau 2 entre [2]");
     LOG("Para usar Aberto de grau 3 entre [3]");

@@ -17,7 +17,7 @@ std::vector<itrInfo> integrate(const Fn& f, double upper, double lower, double E
                                double(intervalIntegrator)(const Fn& f, double, double))
 {
     std::vector<itrInfo> results;
-    const uint32_t MaxItr = 100000;
+    const uint32_t MaxItr = 1000000;
     double Error = EPS + 69.696969;
     double result, oldResult = 0;
     for( uint32_t intervalsNum = 1; Error >= EPS && intervalsNum <= MaxItr; intervalsNum++ )
