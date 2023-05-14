@@ -1,5 +1,4 @@
 #include "src/NumMethods.hpp"
 
-int main()
-{
+int main() {
 }
