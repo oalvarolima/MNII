@@ -2,6 +2,7 @@
 # \build
 #  ---\utils
 #  ---\derivatives
+#  ---\eigen
 #  ---\integration
 CC=g++
 SOURCE=$(wildcard src/*.cpp src/*/*.cpp)

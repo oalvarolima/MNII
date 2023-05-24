@@ -35,3 +35,7 @@ void Fn::test(double x) const
     std::cout << "\nf(x) = " << expre << "\n";
     std::cout << "f(" << x << ") = " << eval(x) << std::endl;
 }
+
+Fn::~Fn() {
+    te_free(compiledExpr);
+}

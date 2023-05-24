@@ -5,12 +5,13 @@
 #include <iostream>
 #include <math.h>
 
-#define LOG(x) std::cout << x << std::endl;
+#define LOG(x) std::cout << x << std::endl
 
 class Fn
 {
 public:
     Fn(const std::string &expr);
+    ~Fn();
 
     double eval(double x) const;
     void test(double x) const;
