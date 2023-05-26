@@ -12,3 +12,14 @@ mtxUtils::LU mtxUtils::decompLU(const Matrix& M) {
 
     return {L, U};
 }
+
+double sumOfSquaredTermsUnderDiag(const Matrix &A) {
+    double squaredEleSum = 0;
+    for (int row = 0; row < A.rows(); row++) {
+        for (int col = 0; col < row; col++) {
+            squaredEleSum += A(row, col) * A(row, col);
+        }
+    }
+
+    return squaredEleSum;
+}

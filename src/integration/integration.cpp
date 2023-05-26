@@ -18,7 +18,7 @@ std::vector<itrInfo> integrate(const Fn& f, double upper, double lower, double E
 {
     std::vector<itrInfo> results;
     const uint32_t MaxItr = 1000000;
-    double Error = EPS + 69.696969;
+    double Error = EPS+EPS;
     double result, oldResult = 0;
     for( uint32_t intervalsNum = 1; Error >= EPS && intervalsNum <= MaxItr; intervalsNum++ )
     {
@@ -33,55 +33,55 @@ std::vector<itrInfo> integrate(const Fn& f, double upper, double lower, double E
     return results;
 }
 
-double trapezoidal(const Fn& f, double upper, double lower)
+double NC::closed::two(const Fn& f, double upper, double lower)
 {
     return .5*(upper - lower)*(f.eval(upper) + f.eval(lower));
 }
 
-double simpson13(const Fn& f, double upper, double lower)
+double NC::closed::three(const Fn& f, double upper, double lower)
 {
     double h = (upper - lower) / 2;
     return (1./3)*h*(f.eval(lower) + 4*f.eval(lower + h) + f.eval(upper));
 }
 
-double simpson38(const Fn& f, double upper, double lower)
+double NC::closed::four(const Fn& f, double upper, double lower)
 {
     double h = (upper - lower) / 3;
     return (3./8)*h*(f.eval(lower) + 3*f.eval(lower + h) + 3*f.eval(lower + 2*h) + f.eval(upper));
 }
 
-double boole(const Fn& f, double upper, double lower)
+double NC::closed::five(const Fn& f, double upper, double lower)
 {
     double h = (upper - lower) / 4;
     return (2./45)*h*(7*f.eval(lower) + 32*f.eval(lower + h) + 12*f.eval(lower + 2*h) + 32*f.eval(lower + 3*h) + 7*f.eval(upper));
 }
 
-double opened2Points(const Fn &f, double upper, double lower)
+double NC::opened::two(const Fn &f, double upper, double lower)
 {
     double interval = (upper - lower) / 3;
     return (3./2)*interval*(f.eval(lower + interval) + f.eval(lower + 2*interval));
 }
 
-double milne(const Fn &f, double upper, double lower)
+double NC::opened::three(const Fn &f, double upper, double lower)
 {
     double interval = (upper - lower) / 4;
     return (4./3)*interval*(2*f.eval(lower + interval) - f.eval(lower + 2*interval) + 2*(f.eval(lower + 3*interval)));
 }
 
-double opened4points(const Fn &f, double upper, double lower)
+double NC::opened::four(const Fn &f, double upper, double lower)
 {
     double interval = (upper - lower) / 5;
     return (5./24)*interval*(11*f.eval(lower + interval) + f.eval(lower + 2*interval) + (f.eval(lower + 3*interval)) + 11*(f.eval(lower + 4*interval)));
 }
 
 
-double opened5points(const Fn &f, double upper, double lower)
+double NC::opened::five(const Fn &f, double upper, double lower)
 {
     double interval = (upper - lower) / 6;
     return (3./20)*interval*(22*f.eval(lower + interval) - 28*f.eval(lower + 2*interval) + 52*(f.eval(lower + 3*interval)) - 28*(f.eval(lower + 4*interval)) + 22*(f.eval(lower + 5*interval)));
 }
 
-double gauss_legendre_2_points(const Fn &f, double upper, double lower){
+double Gauss::Legendre::two(const Fn &f, double upper, double lower){
   auto x = [upper, lower](double alfa){ 
     return (upper+lower)/2 + (upper-lower)/2 * alfa;
   };
@@ -94,7 +94,7 @@ double gauss_legendre_2_points(const Fn &f, double upper, double lower){
   return (upper-lower)/2 * somatorio;
 }
 
-double gauss_legendre_3_points(const Fn &f, double upper, double lower){
+double Gauss::Legendre::three(const Fn &f, double upper, double lower){
   auto x = [upper, lower](double alfa){ 
     return (upper+lower)/2 + (upper-lower)/2 * alfa;
   };
@@ -107,22 +107,20 @@ double gauss_legendre_3_points(const Fn &f, double upper, double lower){
   return (upper-lower)/2 * somatorio;
 }
 
-double gauss_legendre_4_points(const Fn &f, double upper, double lower){
+double Gauss::Legendre::four(const Fn &f, double upper, double lower){
   auto x = [upper, lower](double alfa){ 
     return (upper+lower)/2 + (upper-lower)/2 * alfa;
   };
   std::vector<double> w = {0.3478548451374538, 0.6521451548625461, 0.6521451548625461, 0.3478548451374538};
   std::vector<double> alfa = {-0.8611363115940526, -0.3399810435848563, 0.3399810435848563, 0.8611363115940526};
   double somatorio = 0;
-  for (int i=0; i<4; i++){
+  for (int i=0; i<4; i++) {
     somatorio += w[i] * f.eval(x(alfa[i]));
   }
   return (upper-lower)/2 * somatorio;
 }
 
-// Gauss Hermite
-
-double gauss_hermite_2_points(std::string f_inicial){
+double Gauss::Hermite::two(std::string f_inicial){
   const std::string nova_string = "e^(x^2) * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("e^(-(x^2))");
@@ -136,7 +134,7 @@ double gauss_hermite_2_points(std::string f_inicial){
   return somatorio;
 }
 
-double gauss_hermite_3_points(std::string f_inicial){
+double Gauss::Hermite::three(std::string f_inicial){
   const std::string nova_string = "e^(x^2) * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("e^(-(x^2))");
@@ -144,13 +142,13 @@ double gauss_hermite_3_points(std::string f_inicial){
   std::vector<double> w = {0.295408975150919337883, 1.181635900603677351532, 0.295408975150919337883};
   std::vector<double> alfa = {-1.224744871391589049099, 0, 1.224744871391589049099};
   double somatorio = 0;
-  for (int i=0; i<3; i++){
+  for (int i=0; i<3; i++) {
     somatorio += f2.eval(alfa[i]) * w[i] * f.eval(alfa[i]);
   }
   return somatorio;
 }
 
-double gauss_hermite_4_points(std::string f_inicial){
+double Gauss::Hermite::four(std::string f_inicial){
   const std::string nova_string = "e^(x^2) * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("e^(-(x^2))");
@@ -167,9 +165,7 @@ double gauss_hermite_4_points(std::string f_inicial){
   return somatorio;
 }
 
-// Gauss Laguerre
-
-double gauss_laguerre_2_points(std::string f_inicial){
+double Gauss::Laguerre::two(std::string f_inicial){
   const std::string nova_string = "e^x * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("e^(-x)");
@@ -183,7 +179,7 @@ double gauss_laguerre_2_points(std::string f_inicial){
   return somatorio;
 }
 
-double gauss_laguerre_3_points(std::string f_inicial){
+double Gauss::Laguerre::three(std::string f_inicial){
   const std::string nova_string = "e^x * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("e^(-x)");
@@ -199,7 +195,7 @@ double gauss_laguerre_3_points(std::string f_inicial){
   return somatorio;
 }
 
-double gauss_laguerre_4_points(std::string f_inicial){
+double Gauss::Laguerre::four(std::string f_inicial){
   const std::string nova_string = "e^x * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("e^(-x)");
@@ -215,9 +211,7 @@ double gauss_laguerre_4_points(std::string f_inicial){
   return somatorio;
 }
 
-// Gauss Chebyshev
-
-double gauss_chebyshev_2_points(std::string f_inicial){
+double Gauss::Chebyshev::two(std::string f_inicial){
   const std::string nova_string = "sqrt(1-x^2) * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("1/sqrt(1-x^2)");
@@ -231,7 +225,7 @@ double gauss_chebyshev_2_points(std::string f_inicial){
   return somatorio;
 }
 
-double gauss_chebyshev_3_points(std::string f_inicial){
+double Gauss::Chebyshev::three(std::string f_inicial){
   const std::string nova_string = "sqrt(1-x^2) * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("1/sqrt(1-x^2)");
@@ -247,22 +241,19 @@ double gauss_chebyshev_3_points(std::string f_inicial){
   return somatorio;
 }
 
-double gauss_chebyshev_4_points(std::string f_inicial){
+double Gauss::Chebyshev::four(std::string f_inicial){
   const std::string nova_string = "sqrt(1-x^2) * (" + f_inicial + ")";
   Fn f = Fn(nova_string);
   Fn f2 = Fn("1/sqrt(1-x^2)");
 
-  std::vector<double> w = {0.7853981633974483096157,
-0.7853981633974483096157, 0.785398163397448309616, 0.7853981633974483096157};
-  std::vector<double> alfa = {-0.9238795325112867561282,
--0.3826834323650897717285, 0.3826834323650897717285, 0.9238795325112867561282};
+  std::vector<double> w = {0.7853981633974483096157, 0.7853981633974483096157, 0.785398163397448309616, 0.7853981633974483096157};
+  std::vector<double> alfa = {-0.9238795325112867561282, -0.3826834323650897717285, 0.3826834323650897717285, 0.9238795325112867561282};
   double somatorio = 0;
-  for (int i=0; i<4; i++){
+  for (int i=0; i<4; i++) {
     somatorio += f2.eval(alfa[i]) * w[i] * f.eval(alfa[i]);
   }
   return somatorio;
 }
-
 
 void printResults(const std::vector<itrInfo> &results, const std::string &methodName)
 {

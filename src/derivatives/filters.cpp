@@ -6,7 +6,6 @@ void forEach(Matrix &m, const std::function<double(double)>& f);
 
 Matrix grayScaleImgMatrix(std::string img_filename)
 {
-
     int width, height, channels;
     unsigned char *img = stbi_load(img_filename.c_str(), &width, &height, &channels, 0);
     if( !img )
@@ -82,11 +81,11 @@ Matrix appendZeros(const Matrix& m, uint32_t zerosAmount)
 Matrix applyGaussianFilter(const Matrix &img)
 {
     Matrix gaussianKernel(5, 5);
-    gaussianKernel << 1, 4,  7,  4,  1,
+    gaussianKernel << 1,  4,  7,  4, 1,
                       4, 16, 26, 16, 4,
                       7, 26, 41, 26, 7,
                       4, 16, 26, 16, 4,
-                      1, 4,  7,  4,  1;
+                      1,  4,  7,  4, 1;
     gaussianKernel /= gaussianKernel.sum();
 
     return forEachPix(img, applyKernelToPix, gaussianKernel);
@@ -139,15 +138,15 @@ bool equals(double n1, double n2, double EPS)
 Matrix laplacianEdgeDetector(const Matrix& img)
 {
     Matrix laplacianKernel(9, 9);
-    laplacianKernel << 0, 1, 1,   2, 2, 2, 1, 1, 0,
-                       1, 2, 4,   5, 5, 5, 4, 2, 1,
-                       1, 4, 5,   3, 0, 3, 5, 4, 1,
+    laplacianKernel << 0, 1, 1,   2,   2,   2, 1, 1, 0,
+                       1, 2, 4,   5,   5,   5, 4, 2, 1,
+                       1, 4, 5,   3,   0,   3, 5, 4, 1,
                        2, 5, 3, -12, -24, -12, 3, 5, 2,
                        2, 5, 0, -24, -40, -24, 0, 5, 2,
                        2, 5, 3, -12, -24, -12, 3, 5, 2,
-                       1, 4, 5,   3, 0, 3, 5, 4, 1,
-                       1, 2, 4,   5, 5, 5, 4, 2, 1,
-                       0, 1, 1,   2, 2, 2, 1, 1, 0;
+                       1, 4, 5,   3,   0,   3, 5, 4, 1,
+                       1, 2, 4,   5,   5,   5, 4, 2, 1,
+                       0, 1, 1,   2,   2,   2, 1, 1, 0;
 
     uint32_t sum = 0;
     forEach(laplacianKernel, [&sum](double x)  { sum += fabs(x); return x; }  );

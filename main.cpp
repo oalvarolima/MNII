@@ -1,56 +1,56 @@
 #include "src/NumMethods.hpp"
 
 int main() {
-    Matrix M1(3, 3);
-    M1 << 5, 2, 1,
-          2, 3, 1,
-          1, 1, 2;
-    LOG("\nPara a Matrix M1: ");
-    LOG(M1);
+    const double EPS = .000001;
 
-    powerMethod::print(powerMethod::regular(M1, .000001));
-    powerMethod::print(powerMethod::inverse(M1, .000001));
-    powerMethod::print(powerMethod::shifted(M1, 3, .000001));
+    Matrix M1(5, 5);
+    M1 << 40, 8, 4, 2, 1,
+            8, 30, 12, 6, 2,
+            4, 12, 20, 1, 2,
+            2, 6, 1, 25, 4,
+            1, 2, 2, 4, 5;
 
-    Matrix M2(3, 3);
-    M2 << -14,  1,  -2,
-            1, -1,   1,
-           -2,  1, -11;
-    LOG("\nPara a Matrix M2: ");
-    LOG(M2);
-
-    powerMethod::print(powerMethod::regular(M2, .000001));
-    powerMethod::print(powerMethod::inverse(M2, .000001));
-    powerMethod::print(powerMethod::shifted(M2, -10, .000001));
+    LOG("\nPara a matrix M1");
+    powerMethod::print(powerMethod::regular(M1, EPS));
+    powerMethod::print(powerMethod::shifted(M1, 33, EPS));
+    powerMethod::print(powerMethod::shifted(M1, 20, EPS));
+    powerMethod::print(powerMethod::shifted(M1, 11, EPS));
+    powerMethod::print(powerMethod::inverse(M1, EPS));
 
 
-    Matrix M3(5, 5);
-    M3 << 40,  8,  4,  2, 1,
-          8, 30, 12,  6, 2,
-          4, 12, 20,  1, 2,
-          2,  6,  1, 25, 4,
-          1,  2,  2,  4, 5;
-    LOG("\nPara a Matrix M3: ");
-    LOG(M3);
+    HouseHolder::result result = HouseHolder::makeTridiagMatrix(M1);
+    LOG("\n\nMatrix triadiagonal");
+    LOG(result.triDiagM);
 
-    powerMethod::print(powerMethod::regular(M3, .000001));
-    powerMethod::print(powerMethod::inverse(M3, .000001));
-    powerMethod::print(powerMethod::shifted(M3, 11, .000001));
-    powerMethod::print(powerMethod::shifted(M3, 23, .000001));
-    powerMethod::print(powerMethod::shifted(M3, 32, .000001));
+    LOG("\n\nH1*H2*H3");
+    LOG(result.accumHHs);
 
-    HH::result HH_M3 = HH::makeHHMatrix(M3);
-    eigenResult regular = powerMethod::regular(HH_M3.triDiagM, .000001);
-    regular.vector = HH_M3.accumH * regular.vector;
-    powerMethod::print(regular);
-    eigenResult inverse = powerMethod::inverse(HH_M3.triDiagM, .000001);
-    powerMethod::print(inverse);
+    LOG("\n\n\n Usando a Matrix tridiagonal");
 
+    eigenResult e1 = powerMethod::regular(result.triDiagM, EPS);
+    e1.vector = result.accumHHs * e1.vector;
+    powerMethod::print(e1);
 
-    eigenResult s1 = powerMethod::shifted(HH_M3.triDiagM, 11, .000001);
-    powerMethod::print(s1);
-    eigenResult s2 = powerMethod::shifted(HH_M3.triDiagM, 11, .000001);
-    powerMethod::print(s2);
-    eigenResult s3 = powerMethod::shifted(HH_M3.triDiagM, 11, .000001);
-    powerMethod::print(s3);
+    eigenResult e2 = powerMethod::shifted(result.triDiagM, 33, EPS);
+    e2.vector = result.accumHHs * e2.vector;
+    powerMethod::print(e2);
+
+    eigenResult e3 = powerMethod::shifted(result.triDiagM, 20, EPS);
+    e3.vector = result.accumHHs * e3.vector;
+    powerMethod::print(e3);
+
+    eigenResult e4 = powerMethod::shifted(result.triDiagM, 11, EPS);
+    e4.vector = result.accumHHs * e4.vector;
+    powerMethod::print(e4);
+
+    eigenResult e5 = powerMethod::inverse(result.triDiagM, EPS);
+    e5.vector = result.accumHHs * e5.vector;
+    powerMethod::print(e5);
+
+    QR::methodResult qrresult = QR::method(M1, EPS);
+    LOG("\n\nauto-valores por QR");
+    LOG(qrresult.eigenValues);
+
+    LOG("\n\nQ1*Q2*Q3");
+    LOG(qrresult.accumQs);
 }

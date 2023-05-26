@@ -1,5 +1,4 @@
-#ifndef MTX_UTILS_HPP
-#define MTX_UTILS_HPP
+#pragma once
 
 #include <Eigen/Dense>
 
@@ -19,4 +18,4 @@ namespace mtxUtils {
     LU decompLU(const Matrix& M);
 }
 
-#endif 
+double sumOfSquaredTermsUnderDiag(const Matrix &A);
