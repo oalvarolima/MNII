@@ -9,4 +9,5 @@ namespace HouseHolder {
     };
 
     result makeTridiagMatrix(const Matrix& A);
+    Matrix makeHHcolI(const Matrix& A, uint32_t i);
 }

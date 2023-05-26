@@ -1,7 +1,5 @@
 #include "houseHolderMethod.hpp"
 
-Matrix makeHHcolI(const Matrix& A, uint32_t i);
-
 HouseHolder::result HouseHolder::makeTridiagMatrix(const Matrix& A) {
     Matrix accumHHs = Matrix::Identity(A.rows(), A.cols());
     Matrix tridiagMatrix = A;
@@ -15,7 +13,7 @@ HouseHolder::result HouseHolder::makeTridiagMatrix(const Matrix& A) {
     return {tridiagMatrix, accumHHs};
 }
 
-Matrix makeHHcolI(const Matrix& A, uint32_t i) {
+Matrix HouseHolder::makeHHcolI(const Matrix& A, uint32_t i) {
     Matrix w(A.rows(), 1);
     w.fill(0);
 
