@@ -3,6 +3,7 @@
 eigenResult powerMethod::regular(const Matrix& A, double tolerance) {
     Matrix vk(A.rows(), 1), vkOld;
     vk.fill(1);
+    vk(0, 0) = 0;
 
     double oldEigenVal, eigenVal = 0;
     double error = 1;
@@ -15,7 +16,7 @@ eigenResult powerMethod::regular(const Matrix& A, double tolerance) {
         error = std::fabs((eigenVal - oldEigenVal) / eigenVal);
     }
 
-    return {vkOld, eigenVal};
+    return {vk.col(0).normalized(), eigenVal};
 }
 
 eigenResult powerMethod::inverse(const Matrix& A, double tolerance) {
@@ -26,6 +27,40 @@ eigenResult powerMethod::inverse(const Matrix& A, double tolerance) {
 eigenResult powerMethod::shifted(const Matrix& A, double shiftment, double tolerance) {
     eigenResult result = inverse(A - (shiftment*Matrix::Identity(A.rows(), A.cols())), tolerance);
     return {result.vector, result.value + shiftment};
+}
+
+bool equals(double n1, double n2) {
+    return std::fabs(n1 - n2) < .1;
+}
+
+powerMethod::allEigenResults powerMethod::getAllEigenResults(const Matrix &A, double tolerance) {
+    Matrix eigenVectors(A.rows(), A.cols());
+    Matrix eigenValues = Matrix::Identity(A.rows(), A.cols());
+
+    eigenResult result = regular(A, tolerance);
+    eigenVectors.col(0) = result.vector;
+    eigenValues(0, 0) = result.value;
+
+    result = inverse(A, tolerance);
+    eigenVectors.col(A.cols() - 1) = result.vector;
+    eigenValues(A.rows() - 1, A.cols() - 1) = result.value;
+
+    double currEigenValue, newEigenValue, increment = 1.;
+    currEigenValue = newEigenValue = eigenValues(0, 0);
+    for (int i = 1; i < A.rows() - 1; ++i) {
+        double shiftment = currEigenValue;
+        while(equals(newEigenValue, currEigenValue)) {
+            result = shifted(A, shiftment, tolerance);
+            newEigenValue = result.value;
+            shiftment -= increment;
+        }
+
+        eigenVectors.col(i) = result.vector;
+        eigenValues(i, i) = result.value;
+        currEigenValue = newEigenValue;
+    }
+
+    return {eigenVectors, eigenValues};
 }
 
 void powerMethod::print(const eigenResult &result) {

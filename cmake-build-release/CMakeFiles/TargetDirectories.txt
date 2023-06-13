@@ -1,0 +1,3 @@
+/home/alv/UFC/Dev/MNII/cmake-build-release/CMakeFiles/MNII.dir
+/home/alv/UFC/Dev/MNII/cmake-build-release/CMakeFiles/edit_cache.dir
+/home/alv/UFC/Dev/MNII/cmake-build-release/CMakeFiles/rebuild_cache.dir

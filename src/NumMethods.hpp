@@ -7,3 +7,5 @@
 #include "eigen/houseHolderMethod.hpp"
 #include "eigen/jacobiMethod.hpp"
 #include "eigen/QRmethod.hpp"
+#include "eigen/SVD.hpp"
+#include "integration/GaussQuadratures.hpp"

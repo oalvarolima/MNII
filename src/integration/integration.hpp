@@ -6,8 +6,7 @@
 
 #include "../utils/Fn.hpp"
 
-struct itrInfo
-{
+struct itrInfo {
     uint32_t itrNum;
     double Ivalue;
     double EPS;
@@ -16,15 +15,15 @@ struct itrInfo
 // Newton-Cotes
 namespace NC {
     namespace closed {
-        double two(const Fn& f, double upper, double lower);
-        double three(const Fn& f, double upper, double lower);
-        double four(const Fn& f, double upper, double lower);
-        double five(const Fn& f, double upper, double lower);
+        double two(const Fn &f, double upper, double lower);
+        double three(const Fn &f, double upper, double lower);
+        double four(const Fn &f, double upper, double lower);
+        double five(const Fn &f, double upper, double lower);
     }
 
     namespace opened {
-        double two(const Fn& f, double upper, double lower);
-        double three(const Fn& f, double upper, double lower);
+        double two(const Fn &f, double upper, double lower);
+        double three(const Fn &f, double upper, double lower);
         double four(const Fn &f, double upper, double lower);
         double five(const Fn &f, double upper, double lower);
     }
@@ -32,10 +31,12 @@ namespace NC {
 
 // Quadraturas de Gauss
 namespace Gauss {
+
     namespace Legendre {
         double two(const Fn &f, double upper, double lower);
         double three(const Fn &f, double upper, double lower);
         double four(const Fn &f, double upper, double lower);
+        double twenty(const Fn &f, double upper, double lower);
     }
 
     namespace Hermite {
@@ -57,7 +58,7 @@ namespace Gauss {
     }
 }
 
-std::vector<itrInfo> integrate(const Fn& f, double upper, double lower, double EPS,
-                               double(intervalIntegrator)(const Fn& f, double, double));
+std::vector<itrInfo> integrate(const Fn &f, double upper, double lower, double EPS,
+                               double(intervalIntegrator)(const Fn &f, double, double));
 
 void printResults(const std::vector<itrInfo> &results, const std::string &methodName);
