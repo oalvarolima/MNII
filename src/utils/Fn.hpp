@@ -3,21 +3,21 @@
 #include "tinyexpr.h"
 #include <string>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 #define LOG(x) std::cout << x << std::endl
 
-class Fn
-{
+class Fn {
 public:
     Fn(const std::string &expr);
     ~Fn();
 
     double eval(double x) const;
     void test(double x) const;
-    
+
+    std::string expression;
+
 private:
-    std::string expre;
     te_expr* compiledExpr;
     double* x;
 };

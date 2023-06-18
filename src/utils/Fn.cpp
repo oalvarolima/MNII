@@ -4,7 +4,7 @@ double logn(double x, double base) {
     return log(x)/log(base);
 }
 
-Fn::Fn(const std::string &expr) : expre(expr) {
+Fn::Fn(const std::string &expr) : expression(expr) {
     x = new double;
     te_variable variables[] = {
             {"logn", (const void *)logn, TE_FUNCTION2},
@@ -27,7 +27,7 @@ double Fn::eval(double x) const {
 }
 
 void Fn::test(double x) const {
-    std::cout << "\nf(x) = " << expre << "\n";
+    std::cout << "\nf(x) = " << expression << "\n";
     std::cout << "f(" << x << ") = " << eval(x) << std::endl;
 }
 

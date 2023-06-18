@@ -1,15 +1,11 @@
-# tem que ter um diretório de build com essa especificação
-# \build
-#  ---\utils
-#  ---\derivatives
-#  ---\eigen
-#  ---\integration
 CC=g++
 SOURCE=$(wildcard src/*.cpp src/*/*.cpp)
 OBJS=$(SOURCE:src/%.cpp=build/%.o)
 FLAGS=-Wall -pedantic -Wextra -O2
+OUT_DIRS=$(wildcard src/*)
+DIRS=build $(OUT_DIRS:src/%=build/%)
 
-build/main: build/utils/tinyexpr.o build/utils/stb.o build/main.o $(OBJS)
+build/main: $(shell mkdir -p $(DIRS)) build/utils/tinyexpr.o build/main.o $(OBJS)
 	$(CC) $^ $(FLAGS) -o $@
 	./build/main
 
@@ -21,9 +17,6 @@ build/main.o: main.cpp
 
 build/%.o: src/%.cpp src/%.hpp
 	$(CC) $< -c $(FLAGS) -o $@
-
-build/utils/stb.o: src/utils/stb.cpp
-	g++ $< -O2 -c -o $@
 
 run:
 	./build/main
