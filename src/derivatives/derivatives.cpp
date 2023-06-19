@@ -43,15 +43,15 @@ std::vector<std::vector<std::vector<Derivator::Table>>> tableValues = {
         },
 };
 
-Derivator::Derivator(Derivator::Type type, Derivator::Order order, Derivator::Degree degree) : values(tableValues[type][order][degree]), type(type) {}
+Derivator::Derivator(Derivator::Type type, Derivator::Order order, Derivator::Degree degree) : values(tableValues[type == CENTRAL ? 1 : 0][order][degree]), type(type), order(order) {}
 
 double Derivator::derivate(const Fn &fn, double x, double interval) const {
-    int direction = type == BACKWARD ? -1 : 1;
+    int direction = type == BACKWARD && order & 1? -1 : 1;
     x = type == CENTRAL ? x - interval * (values.weights.size() >> 1) : x;
 
     double result = 0;
     for (int i = 0; i < values.weights.size(); ++i)
-        result += direction * values.weights[i] * fn.eval(x + i * direction * interval);
+        result += values.weights[i] * fn.eval(x + i * direction * interval);
 
     return result * values.multiplier / pow(interval, values.intervalExponent);
 }

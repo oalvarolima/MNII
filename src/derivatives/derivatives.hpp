@@ -14,8 +14,8 @@ public:
 
     enum Type {
         FORWARD = 0,
-        BACKWARD = 0,
-        CENTRAL = 1,
+        BACKWARD = 1,
+        CENTRAL = 2,
     };
 
     enum Degree {
@@ -38,4 +38,5 @@ public:
 private:
     Table values;
     Type type;
+    Order order;
 };

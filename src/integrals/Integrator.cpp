@@ -37,7 +37,7 @@ const std::vector<std::vector<NewtonCotes::TableValues>> NewtonCotesTable =
 {
     {
         {1, {1, 1}, 1./2, NewtonCotes::CLOSED},
-        {2, {1, 4, 1}, 1. / 3, NewtonCotes::CLOSED},
+        {2, {1, 4, 1}, 1./3, NewtonCotes::CLOSED},
         {3, {1, 3, 3, 1}, 3./8, NewtonCotes::CLOSED},
         {4, {7, 32, 12, 32, 7}, 2./45, NewtonCotes::CLOSED}
     },

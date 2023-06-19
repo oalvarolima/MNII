@@ -1,4 +1,3 @@
-#include <string>
 #include "IntegratorIterations.hpp"
 
 IntegratorIterations::IntegratorIterations() = default;
