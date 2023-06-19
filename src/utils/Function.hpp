@@ -7,9 +7,9 @@
 
 #define LOG(x) std::cout << x << std::endl
 
-class Fn {
+class Function {
 public:
-    Fn(const std::string &expr);
+    Function(const std::string &expr);
 
     double eval(double x) const;
     void test(double x) const;

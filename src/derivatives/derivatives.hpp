@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../utils/Fn.hpp"
+#include "../utils/Function.hpp"
 
 class Derivator {
 public:
@@ -27,7 +27,7 @@ public:
 
     Derivator(Type type, Order order, Degree degree);
 
-    double derivate(const Fn& fn, double x, double interval) const;
+    double derivate(const Function& fn, double x, double interval) const;
 
     struct Table {
         double multiplier;

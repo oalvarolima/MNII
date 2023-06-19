@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../utils/Fn.hpp"
+#include "../utils/Function.hpp"
 #include "../utils/IntegratorIterations.hpp"
 
 class Integrator {
 public:
-    IntegratorIterations integrate(const Fn& f, double upper, double lower, double relativeErrorTolerance);
+    IntegratorIterations integrate(const Function& f, double upper, double lower, double relativeErrorTolerance);
 
 protected:
-    double integrateIntervals(const Fn &f, uint32_t intervalsNum, double upper, double lower);
-    virtual double intervalIntegrator(const Fn &f, double lower, double upper) = 0;
+    double integrateIntervals(const Function &f, uint32_t intervalsNum, double upper, double lower);
+    virtual double intervalIntegrator(const Function &f, double lower, double upper) = 0;
 
 protected:
     const uint32_t maxIntervalsNum = 1024;
@@ -38,7 +38,7 @@ public:
     };
 
 private:
-    double intervalIntegrator(const Fn &f, double lower, double upper) override;
+    double intervalIntegrator(const Function &f, double lower, double upper) override;
 
 private:
     const TableValues tableValues;
@@ -61,12 +61,12 @@ public:
     };
 
 private:
-    double intervalIntegrator(const Fn &f, double lower, double upper) override;
+    double intervalIntegrator(const Function &f, double lower, double upper) override;
     static double changeOfVariable(double alfa, double upper, double lower);
 
 private:
     const TableValues tableValues;
 };
 
-double simpleExponential(const Fn& f, double upper, double lower, double c);
-double doubleExponential(const Fn& f, double upper, double lower, double c);
+double simpleExponential(const Function& f, double upper, double lower, double c);
+double doubleExponential(const Function& f, double upper, double lower, double c);

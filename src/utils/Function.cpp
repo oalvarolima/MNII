@@ -1,4 +1,4 @@
-#include "Fn.hpp"
+#include "Function.hpp"
 
 double logn(double x, double base) {
     return log(x)/log(base);
@@ -8,7 +8,7 @@ double cbrt_(double x) {
     return std::cbrt(x);
 }
 
-Fn::Fn(const std::string &expr) : expression(expr) {
+Function::Function(const std::string &expr) : expression(expr) {
     x = new double;
     te_variable variables[] = {
             {"logn", (const void *)logn,  TE_FUNCTION2},
@@ -26,12 +26,12 @@ Fn::Fn(const std::string &expr) : expression(expr) {
     }
 }
 
-double Fn::eval(double x) const {
+double Function::eval(double x) const {
     *this->x = x;
     return te_eval(compiledExpr);
 }
 
-void Fn::test(double x) const {
+void Function::test(double x) const {
     std::cout << "\nf(x) = " << expression << "\n";
     std::cout << "f(" << x << ") = " << eval(x) << std::endl;
 }

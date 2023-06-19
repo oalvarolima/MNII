@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../utils/Fn.hpp"
+#include "../utils/Function.hpp"
 
 class SpecialIntegrator {
 public:
@@ -20,7 +20,7 @@ public:
 
     SpecialIntegrator(Type type, Degree degree);
 
-    double integrate(const Fn &f);
+    double integrate(const Function &f);
 
     struct TableValues {
         std::vector<double> weights;

@@ -45,7 +45,7 @@ const std::vector<std::vector<std::vector<Derivator::Table>>> tableValues = {
 
 Derivator::Derivator(Derivator::Type type, Derivator::Order order, Derivator::Degree degree) : values(tableValues[type == CENTRAL ? 1 : 0][order][degree]), type(type), order(order) {}
 
-double Derivator::derivate(const Fn &fn, double x, double interval) const {
+double Derivator::derivate(const Function &fn, double x, double interval) const {
     int direction = type == BACKWARD && order & 1? -1 : 1;
     x = type == CENTRAL ? x - interval * (values.weights.size() >> 1) : x;
 

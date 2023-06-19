@@ -1,6 +1,6 @@
 #include "Integrator.hpp"
 
-IntegratorIterations Integrator::integrate(const Fn& f, double upper, double lower, double relativeErrorTolerance) {
+IntegratorIterations Integrator::integrate(const Function& f, double upper, double lower, double relativeErrorTolerance) {
     IntegratorIterations iterationsData;
 
     double currError = 1;
@@ -19,7 +19,7 @@ IntegratorIterations Integrator::integrate(const Fn& f, double upper, double low
     return iterationsData;
 }
 
-double Integrator::integrateIntervals(const Fn &f, uint32_t intervalsNum, double upper, double lower) {
+double Integrator::integrateIntervals(const Function &f, uint32_t intervalsNum, double upper, double lower) {
     double intervalSize = (upper - lower)/intervalsNum;
     double currLower = lower;
     double currUpper = lower + intervalSize;
@@ -50,7 +50,7 @@ const std::vector<std::vector<NewtonCotes::TableValues>> NewtonCotesTable =
 };
 NewtonCotes::NewtonCotes(Type type, Degree degree) : tableValues(NewtonCotesTable[type][degree]) {}
 
-double NewtonCotes::intervalIntegrator(const Fn &f, double upper, double lower) {
+double NewtonCotes::intervalIntegrator(const Function &f, double upper, double lower) {
     double interval = (upper - lower) / tableValues.intervalsNum;
     if(tableValues.type == OPENED)
         lower += interval;
@@ -71,7 +71,7 @@ const std::vector<GaussLegendre::TableValues> GaussLegendreTable =
 };
 GaussLegendre::GaussLegendre(GaussLegendre::Degree degree) : tableValues(GaussLegendreTable[degree]) {}
 
-double GaussLegendre::intervalIntegrator(const Fn &f, double upper, double lower) {
+double GaussLegendre::intervalIntegrator(const Function &f, double upper, double lower) {
     double sum = 0;
     for(uint32_t i = 0; i < tableValues.weights.size(); i++)
         sum += tableValues.weights[i] * f.eval(changeOfVariable(tableValues.alfa[i], upper, lower));
@@ -92,7 +92,7 @@ std::string ReplaceAll(std::string str, const std::string &from, const std::stri
     return str;
 }
 
-double doubleExponential(const Fn& f, double upper, double lower, double c) {
+double doubleExponential(const Function& f, double upper, double lower, double c) {
     GaussLegendre gl20(GaussLegendre::TWENTY);
 
     std::string halfPi = std::to_string(M_PI / 2.);
@@ -102,10 +102,10 @@ double doubleExponential(const Fn& f, double upper, double lower, double c) {
 
     std::string newFunction = ReplaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
 
-    return gl20.integrate(Fn(newFunction), c, -c, .0000001).finalResult();
+    return gl20.integrate(Function(newFunction), c, -c, .0000001).finalResult();
 }
 
-double simpleExponential(const Fn& f, double upper, double lower, double c) {
+double simpleExponential(const Function& f, double upper, double lower, double c) {
     GaussLegendre gl20(GaussLegendre::TWENTY);
 
     std::string halfPi = std::to_string(M_PI / 2.);
@@ -115,5 +115,5 @@ double simpleExponential(const Fn& f, double upper, double lower, double c) {
 
     std::string newFunction = ReplaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
 
-    return gl20.integrate(Fn(newFunction), c, -c, .0000001).finalResult();
+    return gl20.integrate(Function(newFunction), c, -c, .0000001).finalResult();
 }

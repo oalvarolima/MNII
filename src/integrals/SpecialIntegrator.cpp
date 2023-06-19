@@ -24,9 +24,9 @@ const std::vector<std::vector<SpecialIntegrator::TableValues>> SpecialTableValue
 SpecialIntegrator::SpecialIntegrator(SpecialIntegrator::Type type, SpecialIntegrator::Degree degree)
 : tableValues(SpecialTableValues[type][degree]), weightFunction(weightFunctions[type]), functionToAdd(functionsToAdd[type]) {}
 
-double SpecialIntegrator::integrate(const Fn &f) {
-    Fn weightFunction(this->weightFunction);
-    Fn functionWithWeight(functionToAdd + "* (" + f.expression + ")");
+double SpecialIntegrator::integrate(const Function &f) {
+    Function weightFunction(this->weightFunction);
+    Function functionWithWeight(functionToAdd + "* (" + f.expression + ")");
 
     double sum = 0;
     for (uint32_t i = 0; i < tableValues.weights.size(); i++)
