@@ -67,3 +67,6 @@ private:
 private:
     const TableValues tableValues;
 };
+
+double simpleExponential(const Fn& f, double upper, double lower, double c);
+double doubleExponential(const Fn& f, double upper, double lower, double c);

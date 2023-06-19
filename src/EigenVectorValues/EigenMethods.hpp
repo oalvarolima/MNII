@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "SimilarityTransformer.hpp"
 
 struct QRMethodResult {
@@ -13,3 +15,16 @@ struct JacobiMethodResult {
     Matrix accumJs;
 };
 JacobiMethodResult JacobiMethod(const Matrix& A, double tolerance);
+
+class PowerMethod {
+    struct result {
+        Matrix vector;
+        double value;
+
+        void print();
+    };
+public:
+    static result regular(const Matrix &A, double tolerance);
+    static result inverse(const Matrix &A, double tolerance);
+    static result shifted(const Matrix &A, double shiftment, double tolerance);
+};

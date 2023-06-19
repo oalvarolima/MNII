@@ -10,7 +10,6 @@
 class Fn {
 public:
     Fn(const std::string &expr);
-    ~Fn();
 
     double eval(double x) const;
     void test(double x) const;

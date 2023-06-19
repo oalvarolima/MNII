@@ -13,7 +13,7 @@ IntegratorIterations Integrator::integrate(const Fn& f, double upper, double low
         iterationsData.add(currIntervalsNum, currIntegralValue, currError);
 
         prevIntegralValue = currIntegralValue;
-        currIntervalsNum *= 2;
+        currIntervalsNum = currIntervalsNum << 1;
     }
 
     return iterationsData;
@@ -81,4 +81,39 @@ double GaussLegendre::intervalIntegrator(const Fn &f, double upper, double lower
 
 double GaussLegendre::changeOfVariable(double alfa, double upper, double lower) {
     return .5 * ((upper + lower) + (upper - lower) * alfa);
+}
+
+std::string ReplaceAll(std::string str, const std::string &from, const std::string &to) {
+    size_t start_pos = 0;
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+    return str;
+}
+
+double doubleExponential(const Fn& f, double upper, double lower, double c) {
+    GaussLegendre gl20(GaussLegendre::TWENTY);
+
+    std::string halfPi = std::to_string(M_PI / 2.);
+    std::string dx_ds = std::to_string((upper-lower)*.5);
+    std::string x_s = std::to_string((lower+upper)*.5) + " + " + dx_ds + " * tanh(" + halfPi + " * sinh(x) )";
+    dx_ds += " * " + halfPi + " * ( (cosh(x)) / (cosh(" + halfPi + " * sinh(x)))^2 )";
+
+    std::string newFunction = ReplaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
+
+    return gl20.integrate(Fn(newFunction), c, -c, .0000001).finalResult();
+}
+
+double simpleExponential(const Fn& f, double upper, double lower, double c) {
+    GaussLegendre gl20(GaussLegendre::TWENTY);
+
+    std::string halfPi = std::to_string(M_PI / 2.);
+    std::string dx_ds = std::to_string((upper-lower)*.5);
+    std::string x_s = std::to_string((lower+upper)*.5) + " + " + dx_ds + " * tanh(x)";
+    dx_ds +=  " / (cosh(x)^2)";
+
+    std::string newFunction = ReplaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
+
+    return gl20.integrate(Fn(newFunction), c, -c, .0000001).finalResult();
 }

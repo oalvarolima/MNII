@@ -1,6 +1,6 @@
 #include "derivatives.hpp"
 
-std::vector<std::vector<std::vector<Derivator::Table>>> tableValues = {
+const std::vector<std::vector<std::vector<Derivator::Table>>> tableValues = {
         {//forward/backward
                 {//first
                         {1,  {-1., 1.},   1},//E1
