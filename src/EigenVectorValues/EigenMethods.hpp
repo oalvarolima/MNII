@@ -26,5 +26,5 @@ class PowerMethod {
 public:
     static result regular(const Matrix &A, double tolerance);
     static result inverse(const Matrix &A, double tolerance);
-    static result shifted(const Matrix &A, double shiftment, double tolerance);
+    static result shifted(const Matrix &A, double tolerance, double shiftment);
 };

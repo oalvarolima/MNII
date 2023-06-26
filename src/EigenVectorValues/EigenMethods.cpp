@@ -29,9 +29,9 @@ PowerMethod::result PowerMethod::regular(const Matrix &A, double tolerance) {
     Matrix prevV;
     double currLambda = 0, prevLambda, error = 1;
     while(error > tolerance) {
-        prevV = currV;
         prevLambda = currLambda;
-        currV = A * prevV.col(0).normalized();
+        prevV = currV.normalized();
+        currV = A * prevV;
         currLambda = currV.col(0).dot(prevV.col(0));
         error = std::fabs((currLambda - prevLambda) / currLambda);
     }
@@ -40,15 +40,15 @@ PowerMethod::result PowerMethod::regular(const Matrix &A, double tolerance) {
 }
 
 PowerMethod::result PowerMethod::inverse(const Matrix &A, double tolerance) {
-    result regularResult = regular(A.inverse(), tolerance);
+    result regularResult = regular(LU::inverse(A), tolerance);
     return {regularResult.vector, 1/regularResult.value};
 }
 
-PowerMethod::result PowerMethod::shifted(const Matrix &A, double shiftment, double tolerance) {
+PowerMethod::result PowerMethod::shifted(const Matrix &A, double tolerance, double shiftment) {
     result inverseResult = inverse(A - (shiftment*Matrix::Identity(A.rows(), A.cols())), tolerance);
     return {inverseResult.vector, inverseResult.value + shiftment};
 }
 
 void PowerMethod::result::print() {
-    std::cout << "\nAuto-valor: " << value << "Auto-vetor:\n" << vector << "\n";
+    std::cout << "\nAuto-valor: " << value << "\nAuto-vetor:\n" << vector << "\n";
 }
