@@ -8,6 +8,8 @@ struct LUdecomp {
 class LU {
 public:
     static LUdecomp decomp(const Matrix& A);
+    static Matrix inverse(const Matrix& A);
+    static Matrix solver(const LUdecomp& lu, const Matrix& y);
 };
 
 struct QRdecomp {

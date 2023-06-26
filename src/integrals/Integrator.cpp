@@ -83,7 +83,7 @@ double GaussLegendre::changeOfVariable(double alfa, double upper, double lower) 
     return .5 * ((upper + lower) + (upper - lower) * alfa);
 }
 
-std::string ReplaceAll(std::string str, const std::string &from, const std::string &to) {
+std::string replaceAll(std::string str, const std::string &from, const std::string &to) {
     size_t start_pos = 0;
     while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
         str.replace(start_pos, from.length(), to);
@@ -100,7 +100,7 @@ double doubleExponential(const Function& f, double upper, double lower, double c
     std::string x_s = std::to_string((lower+upper)*.5) + " + " + dx_ds + " * tanh(" + halfPi + " * sinh(x) )";
     dx_ds += " * " + halfPi + " * ( (cosh(x)) / (cosh(" + halfPi + " * sinh(x)))^2 )";
 
-    std::string newFunction = ReplaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
+    std::string newFunction = replaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
 
     return gl20.integrate(Function(newFunction), c, -c, .0000001).finalResult();
 }
@@ -113,7 +113,7 @@ double simpleExponential(const Function& f, double upper, double lower, double c
     std::string x_s = std::to_string((lower+upper)*.5) + " + " + dx_ds + " * tanh(x)";
     dx_ds +=  " / (cosh(x)^2)";
 
-    std::string newFunction = ReplaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
+    std::string newFunction = replaceAll(f.expression, "x", "(" + x_s + ")") + " * (" + dx_ds + ")";
 
     return gl20.integrate(Function(newFunction), c, -c, .0000001).finalResult();
 }

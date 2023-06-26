@@ -1,7 +1,7 @@
 #include "SimilarityTransformer.hpp"
 
 LUdecomp LU::decomp(const Matrix &A) {
-    Matrix U = A, L = Matrix::Identity(A.rows(), A.cols());
+    Matrix L = Matrix::Identity(A.rows(), A.cols()), U = A;
 
     for (uint32_t col = 0; col < U.cols(); col++)
         for (uint32_t row = col + 1; row < U.rows(); row++) {
@@ -10,6 +10,35 @@ LUdecomp LU::decomp(const Matrix &A) {
         }
 
     return {L, U};
+}
+
+Matrix LU::inverse(const Matrix &A) {
+    Matrix inverse = Matrix::Zero(A.rows(), A.cols());
+    LUdecomp lu = decomp(A);
+    Matrix ID = Matrix::Identity(A.rows(), A.cols());
+    for(uint32_t i = 0; i < A.cols(); i++)
+        inverse.col(i) = solver(lu, ID.col(i));
+
+    return inverse;
+}
+
+Matrix LU::solver(const LUdecomp &lu, const Matrix &y) {
+    Matrix result = y;
+    for(uint32_t row = 0; row < y.rows(); row++) {
+        double sum = 0;
+        for(uint32_t col = 0; col < row; col++)
+            sum += lu.L(row, col) * result(col, 0);
+
+        result(row, 0) = y(row, 0) - sum;
+    }
+    for(int row = result.rows() - 1; row >= 0; row--) {
+        double sum = 0;
+        for(int col = result.rows() - 1; col > row; col--)
+            sum += lu.U(row, col) * result(col, 0);
+
+        result(row, 0) = (result(row, 0) - sum) / lu.U(row, row);
+    }
+    return result;
 }
 
 QRdecomp QR::decomp(const Matrix &A) {

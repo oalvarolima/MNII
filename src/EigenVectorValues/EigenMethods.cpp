@@ -27,7 +27,7 @@ JacobiMethodResult JacobiMethod(const Matrix &A, double tolerance) {
 PowerMethod::result PowerMethod::regular(const Matrix &A, double tolerance) {
     Matrix currV = Matrix::Random(A.rows(), 1);
     Matrix prevV;
-    double currLambda = 0, prevLambda = 0, error = 1;
+    double currLambda = 0, prevLambda, error = 1;
     while(error > tolerance) {
         prevV = currV;
         prevLambda = currLambda;

@@ -3,6 +3,8 @@
 #include "../utils/Function.hpp"
 #include "../utils/IntegratorIterations.hpp"
 
+#include "SpecialIntegrator.hpp"
+
 class Integrator {
 public:
     IntegratorIterations integrate(const Function& f, double upper, double lower, double relativeErrorTolerance);
@@ -41,7 +43,7 @@ private:
     double intervalIntegrator(const Function &f, double lower, double upper) override;
 
 private:
-    const TableValues tableValues;
+    const TableValues& tableValues;
 };
 
 class GaussLegendre : public Integrator {
