@@ -1,24 +1,44 @@
 #include "derivatives.hpp"
 
 const std::vector<std::vector<std::vector<Derivator::Table>>> tableValues = {
-        {//forward/backward
+        {//forward
                 {//first
-                        {1,  {-1., 1.},   1},//E1
-                        {.5,      {-3., 4., -1},       1},//E2
-                        {1. / 6,  {-11., 18, -9,  2},            1},//E3
+                        {1      , {-1., 1.}              , 1},//E1
+                        {.5     , {-3., 4., -1}          , 1},//E2
+                        {1. / 6 , {-11., 18, -9,  2}     , 1},//E3
                         {1. / 12, {-25., 48, -36, 16, -3}, 1},//E4
                 },
                 {//second
-                        {1,  {1, 2,  1}, 2},
-                        {1,       {2,  -5, 4,   -1},     2},
-                        {1. / 12, {35, -104, 114, -56, 11}, 2},
-                        {1. / 12,  {45, -154, 214, -156, 61,  -10},    2},
+                        {1,       {1, 2,  1}                     , 2},
+                        {1,       {2,  -5, 4,   -1}              , 2},
+                        {1. / 12, {35, -104, 114, -56, 11}       , 2},
+                        {1. / 12, {45, -154, 214, -156, 61,  -10}, 2},
                 },
                 {//third
                         {1,  {-1, 3, -3, 1},     3},
                         {.5,     {-5, 18, -24, 14, -3},    3},
                         {1. / 4,   {-17, 71, -118, 98,  -41,  7},           3},
                         {1. / 8, {-49, 232, -461, 496, -307, 104, -15}, 3},
+                }
+        },
+        {//backward
+                {//first
+                        {1      , {1., -1.}             , 1},//E1
+                        {.5     , {3., -4., 1}          , 1},//E2
+                        {1. / 6 , {11., -18, 9,  -2}    , 1},//E3
+                        {1. / 12, {25., -48, 36, -16, 3}, 1},//E4
+                },
+                {//second
+                        {1,       {1, -2,  1}                     , 2},
+                        {1,       {2,  -5, 4,   -1}              , 2},
+                        {1. / 12, {35, -104, 114, -56, 11}       , 2},
+                        {1. / 12, {45, -154, 214, -156, 61, -10}, 2},
+                },
+                {//third
+                        {1,  {1, -3, 3, -1},     3},
+                        {.5,     {5, -18, -24, -14, 3},    3},
+                        {1. / 4,   {17, -71, 118, -98,  41,  -7},           3},
+                        {1. / 8, {49, -232, 461, -496, 307, -104, 15}, 3},
                 }
         },
         {//central
@@ -43,10 +63,10 @@ const std::vector<std::vector<std::vector<Derivator::Table>>> tableValues = {
         },
 };
 
-Derivator::Derivator(Derivator::Type type, Derivator::Order order, Derivator::Degree degree) : values(tableValues[type == CENTRAL ? 1 : 0][order][degree]), type(type), order(order) {}
+Derivator::Derivator(Derivator::Type type, Derivator::Order order, Derivator::Degree degree) : values(tableValues[type][order][degree]), type(type), order(order) {}
 
 double Derivator::derivate(const Function &fn, double x, double interval) const {
-    int direction = type == BACKWARD && order & 1? -1 : 1;
+    int direction = type == BACKWARD? -1 : 1;
     x = type == CENTRAL ? x - interval * (values.weights.size() >> 1) : x;
 
     double result = 0;

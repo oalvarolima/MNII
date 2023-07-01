@@ -34,7 +34,6 @@ public:
         std::vector<double> weights;
         int intervalExponent;
     };
-
 private:
     Table values;
     Type type;

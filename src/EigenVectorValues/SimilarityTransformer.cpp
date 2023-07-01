@@ -140,5 +140,5 @@ bool isDiagonal(const Matrix &A, double EPS) {
         for (int col = 0; col < row; col++)
             sum += A(row, col) * A(row, col);
 
-    return abs(sum) < EPS;
+    return sum < EPS;
 }
